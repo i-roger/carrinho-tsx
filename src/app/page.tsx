@@ -77,28 +77,42 @@ export default function Home() {
   }, 0)
 
   return (
-    <div>
-      <h2>Livros</h2>
-      <ul>
-        {books.map(book => (<li>
-          <p>{book.title}</p>
-          <p>{book.price}</p>
-          <button className="bg-green-400" onClick={() => handleAddToCart(book.id)}>Add to Cart</button>
-        </li>))}
-      </ul>
+    <div className="flex justify-evenly bg-zinc-400">
+      <div>
+        <h2 className="bg-white rounded p-2">Lista de Livros</h2>
+        <ul>
+          {books.map(book => (<li>
+            <p>{book.title}</p>
+            <p>{book.price}</p>
+            <button className="bg-green-400 rounded p-2" onClick={() => handleAddToCart(book.id)}>Add to Cart</button>
+          </li>))}
+        </ul>
+      </div>
 
-      <h2>Shopping Cart ({totalCart.toFixed(2)})</h2>
-      <h2>Carrinho</h2>
-      <ul>
-        {shoppingCart.map((item) => (<li>
-          <p>Book: {item.product.title}</p>
-          <p>Preço: {item.product.price}</p>
-          <p>Quantidade: {(item.quantity)}</p>
-          <p>Total: {(item.quantity * item.product.price).toFixed(2)}</p>
-          <button onClick={() => handleRemoveFromCart(item.product.id)}>Remove</button>
-        </li>))}
-      </ul>
+          {/* PARA VER O TOTAL ESTÁ ABAIXO */}
+          <div id="carrinho-modal" className="">
+      <div className="bg-white p-5 rounded-md min-w-[90%] md:min-w-[600px]"> {/* <---- Background do Card Modal */}
+        <h2 className="text-center font-bold text-2xl mb-2">Meu Carrinho</h2>
+        <div id="carrinho-items" className="flex flex-col justify-between mb-2">
+        {shoppingCart.map((item) => (
+          <div className="flex justify-between px-4 ring-[1px] shadow-md ring-gray-300 rounded" key={item.product.id}>
+            <div className="flex justify-center gap-2 items-center">
+              <Image className="p-2" alt="" width={100} height={300} src=""/>
+              <div className="flex flex-col justify-center">
+                <p>{item.product.title}</p>
+                <p>Valor: {item.product.price.toLocaleString("pt-BR",{style:"currency", currency:"BRL"})}</p>
+                <p>Quantidade: {(item.quantity)}x</p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <button className="p-2 bg-red-500 rounded-full" onClick={() => handleRemoveFromCart(item.product.id)}>Remover</button>
+            </div>
+        </div>))}
+        </div>
+          <h2>Shopping Cart ({totalCart.toFixed(2)})</h2> 
+      </div>
 
+    </div>
     </div>
   );
 }
